@@ -108,10 +108,10 @@ model = tf.keras.applications.MobileNetV3Large(
 ```
 
 ## Konfigurasi Arsitektur
-Model Deep Learning CNN sederhana terdiri dari tiga layer utama (tergantung model) yaitu **layer convolution**, **layer flatten** dan **classifier**. Layer convolution ini merupakan model CNN yang akan digunakan, dimana pada kesempatan ini saya akan mengguanakan [**MobileNetV3 Small**](https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV3Small) dan [**MobileNetV3 Large**](https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV3Large), [**layer flatten**](https://www.tensorflow.org/api_docs/python/tf/keras/layers/Flatten) merupakan layer yang akan mengubah output dari convolution yang merupakan data gambar dengan bentuk data nxn menjadi 1xn agar dapat digunakan pada layer classifier, sedangkan classifier merupakan layer yang akan mengkalsifikasi dan mengekstrak informasi dari setiap gambar yang masuk pada penelitian ini classifier yang digunakan adalah [**Multi-layer Perceptron**](https://en.wikipedia.org/wiki/Multilayer_perceptron).
+Model Deep Learning CNN sederhana terdiri dari tiga layer utama (tergantung model) yaitu **layer convolution**, **layer flatten** dan **classifier**. Layer convolution ini merupakan model CNN yang akan digunakan, dimana pada kesempatan ini saya akan mengguanakan [**MobileNetV3 Small**](https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV3Small) dan [**MobileNetV3 Large**](https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV3Large), 
 
 > perlu dicatat bahwa transfer learning hanya terjadi pada layer convolution, tidak pada flatten dan classifer
-> kita dapat menentukan apakah layer convolution yang menerima transfer learning untuk ikut belajar atau tidak dengan menggunakan trainble true atau false
+> kita dapat menentukan apakah layer convolution yang menerima transfer learning untuk ikut belajar atau tidak dengan menggunakan trainable true atau false
 > ```
 >pretrained_model= tf.keras.applications.MobileNetV3Small(include_top=False,
 >                                                                   alpha=1.0,                                      
@@ -126,7 +126,15 @@ Model Deep Learning CNN sederhana terdiri dari tiga layer utama (tergantung mode
 
 untuk memahami bagaimana bentuk dari model, silahkan buka langsung [paper penelitian oleh Andrew Howard, dkk](https://arxiv.org/abs/1905.02244v5)
 
-classifier yang akan digunakan pada penelitian adalah multilayer perceptron dengan 3 layer utama, setiap layer terdiri dari [**drop out**](https://databasecamp.de/en/ml/dropout-layer-en#:~:text=The%20dropout%20layer%20is%20a,the%20network%20architecture%20at%20all.) dan [**fully connected layer (FCL)**](https://medium.com/@vaibhav1403/fully-connected-layer-f13275337c7c)
+## FLatten
+[**layer flatten**](https://www.tensorflow.org/api_docs/python/tf/keras/layers/Flatten) merupakan layer yang akan mengubah output dari convolution yang merupakan data gambar dengan bentuk data (n x n) menjadi (1 x n) agar dapat digunakan pada layer classifier,
+
+![Layer Flatten](Gambar/Rujukan/flattening.jpg)
+
+### Classifier
+ sedangkan classifier merupakan layer yang akan mengkalsifikasi dan mengekstrak informasi dari setiap gambar yang masuk pada penelitian ini classifier yang digunakan adalah [**Multi-layer Perceptron**](https://en.wikipedia.org/wiki/Multilayer_perceptron).
+ 
+Classifier yang akan digunakan pada penelitian adalah multilayer perceptron dengan 3 layer utama, setiap layer terdiri dari [**drop out**](https://databasecamp.de/en/ml/dropout-layer-en#:~:text=The%20dropout%20layer%20is%20a,the%20network%20architecture%20at%20all.) dan [**fully connected layer (FCL)**](https://medium.com/@vaibhav1403/fully-connected-layer-f13275337c7c)
 
 structur MLP yang digunakan sebagai classifer terdiri dari
 | layer | unit | drop rate | fungsi aktivasi | Regularization |
