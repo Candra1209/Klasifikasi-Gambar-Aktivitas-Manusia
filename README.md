@@ -46,4 +46,44 @@ untuk kelas-kelas yang terdapat pada dataset ini dapat dilihat di table bawah:
 | sleeping | 1000 | 200 | 1200 |
 | texting | 1000 | 200 | 1200 |
 | using a | 1000 | 200 | 1200 |
-| Total Gambar | 15000 | 3000 | 18000 |
+| **Total Gambar** | **15000** | **3000** | **18000** |
+
+## Pre-processing
+proses preprocessing bertujuan untuk menyamaratakan data sehingga semua data memiliki format yang sama untuk dimasukan kedalam model.
+beberapa proses pre-processing yang digunakan kali ini adalah :
+### resize
+dimana semua gambar akan diubah ukuran menjadi 224x224 pixel, dimana teknik resize yang digunakan adalah [bilinear interpolation](https://en.wikipedia.org/wiki/Bilinear_interpolation)
+
+sebenarnya kita dapat memilih teknik resize yang kita mau, [resize pada tensorflow](https://www.tensorflow.org/api_docs/python/tf/image/resize) sendiri menyediakan beberapa teknik resize seperti :
+- AREA	'area'
+- BICUBIC	'bicubic'
+- BILINEAR	'bilinear'
+- GAUSSIAN	'gaussian'
+- LANCZOS3	'lanczos3'
+- LANCZOS5	'lanczos5'
+- MITCHELLCUBIC	'mitchellcubic'
+- NEAREST_NEIGHBOR	'nearest'
+
+dan kita dapat ubah dengan
+```
+tf.image.resize(
+    images, 
+    size, 
+    method=ResizeMethod.BILINEAR, // ganti metode yang di inginkan di sini
+    preserve_aspect_ratio=False,
+    antialias=False,
+    name=None
+)
+```
+## Data Augmentation
+untuk mengatasi overfitting saya menggunakan data augmentation agar data yang digunakan selama proses pelatihan lebih beragam. teknik ini sering digunakan dibanyak penelitian dan merupakan cara paling ampuh untuk mengatasi dataset yang sedikit dan kurang keberagaman. beberapa teknik ini dapat digunakan dengan [ImageDataGenerator pada TensorFlow](https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator) sedangkan untuk random cutout merupakan teknik tambahan (sampai saat respatori ini dibuat belum ada pada tansorflow)
+
+pada kesempatan ini beberapa teknik augmentasi yang digunakan antara lain:
+- random rotate dengan besar 30 derajat, 
+- random flip (horizontal dan vertical), 
+- shear(kemiringan), 
+- fill (mengisi ruang kosong) dengan nearest neighbor, 
+- [random cutout (melubangi gambar secara random)](https://github.com/yu4u/cutout-random-erasing).
+
+berikut contoh data yang telah melalui data augmentation :
+![Tampilan gambar yang melalui augmentation](Gambar/Rujukan/.jpg)
