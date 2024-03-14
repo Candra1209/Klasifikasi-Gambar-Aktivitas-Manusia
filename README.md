@@ -121,9 +121,40 @@ Model Deep Learning CNN sederhana terdiri dari tiga layer utama (tergantung mode
 >                                                                   weights='imagenet')
 >
 >for layer in pretrained_model.layers:
->        layer.trainable=True
+>        layer.trainable=True # true untuk ikut belajar (unfreeze), fales untuk tidak ikut belajar (freeze)
 > ```
 
+untuk memahami bagaimana bentuk dari model, silahkan buka langsung [paper penelitian oleh Andrew Howard, dkk](https://arxiv.org/abs/1905.02244v5)
 
+classifier yang akan digunakan pada penelitian adalah multilayer perceptron dengan 3 layer utama, setiap layer terdiri dari [**drop out**](https://databasecamp.de/en/ml/dropout-layer-en#:~:text=The%20dropout%20layer%20is%20a,the%20network%20architecture%20at%20all.) dan [**fully connected layer (FCL)**](https://medium.com/@vaibhav1403/fully-connected-layer-f13275337c7c)
 
+structur MLP yang digunakan sebagai classifer terdiri dari
+| layer | unit | drop rate | fungsi aktivasi | Regularization |
+|-------|------|-----------|-----------------|----------------|
+|flatten|_s_ 1024 / _l_ 1280 |~|~|~|
+|drop out|_s_ 1024 / _l_ 1280 |0.4|~|~|
+|FCL|728|~|ReLU|L2|
+|drop out|728|0.3|~|~|
+|FCL|256|~|ReLU|L2|
+|drop out|256|0.2|~|~|
+|FCL|15|~|softmax|L2|
 
+```
+regularizer = 'l2'
+
+classifier = Sequential()
+classifier.add(Flatten())
+classifier.add(Dropout(0.4))
+classifier.add(Dense(units=728, activation="ReLU", kernel_regularizer=regularizer))
+classifier.add(Dropout(0.3))
+classifier.add(Dense(units=256, density=0.3, activation="ReLU", kernel_regularizer=regularizer))
+classifier.add(Dropout(0.2))
+classifier.add(Dense(units=15, density=0.2, activation="softmax", kernel_regularizer=regularizer))
+```
+
+lalu gabungkan model CNN dan classifer yang baru dibuat
+```
+model= Sequential()
+model.add(pretrained_model) #sesuaikan dengan arsitektur yang dipanggil sebelumnya
+model.add(classifier)
+```
