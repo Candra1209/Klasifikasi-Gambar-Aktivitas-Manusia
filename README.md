@@ -1,5 +1,5 @@
 # Klasifikasi-Gambar-Aktivitas-Manusia
-ini merupakan penelitian yang saya lakukan saat menempu pendidikan S1 - Ilmu Komputer, penelitian ini saya lakukan untuk menyelesaikan tugas akhir pada tahun 2023. pada kesempatan ini saya membuat model deep learning dengan menggunakan arsitektur ***MobileNet V3 small*** dan ***Large***, untuk mengklasifikasi gambar dari **15 aktivitas manusia**.
+Ini merupakan penelitian yang saya lakukan saat menempu pendidikan S1 - Ilmu Komputer, penelitian ini saya lakukan untuk menyelesaikan tugas akhir pada tahun 2023. pada kesempatan ini saya membuat model deep learning dengan menggunakan arsitektur ***MobileNet V3 small*** dan ***Large***, untuk mengklasifikasi gambar dari **15 aktivitas manusia**.
 
 model akan dilatih dengan skenario seperti gambar dibawah :
 ![skenario penelitan](Gambar/Rujukan/Drawing1.jpg)
@@ -49,7 +49,7 @@ untuk kelas-kelas yang terdapat pada dataset ini dapat dilihat di table bawah:
 | **Total Gambar** | **15000** | **3000** | **18000** |
 
 ## Pre-processing
-proses preprocessing bertujuan untuk menyamaratakan data sehingga semua data memiliki format yang sama untuk dimasukan kedalam model.
+Proses preprocessing bertujuan untuk menyamaratakan data sehingga semua data memiliki format yang sama untuk dimasukan kedalam model.
 beberapa proses pre-processing yang digunakan kali ini adalah :
 ### resize
 dimana semua gambar akan diubah ukuran menjadi 224x224 pixel, dimana teknik resize yang digunakan adalah [bilinear interpolation](https://en.wikipedia.org/wiki/Bilinear_interpolation)
@@ -76,7 +76,7 @@ tf.image.resize(
 )
 ```
 ## Data Augmentation
-untuk mengatasi overfitting saya menggunakan data augmentation agar data yang digunakan selama proses pelatihan lebih beragam. teknik ini sering digunakan dibanyak penelitian dan merupakan cara paling ampuh untuk mengatasi dataset yang sedikit dan kurang keberagaman. beberapa teknik ini dapat digunakan dengan [ImageDataGenerator pada TensorFlow](https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator) sedangkan untuk random cutout merupakan teknik tambahan (sampai saat respatori ini dibuat belum ada pada tansorflow)
+Untuk mengatasi overfitting saya menggunakan data augmentation agar data yang digunakan selama proses pelatihan lebih beragam. teknik ini sering digunakan dibanyak penelitian dan merupakan cara paling ampuh untuk mengatasi dataset yang sedikit dan kurang keberagaman. beberapa teknik ini dapat digunakan dengan [ImageDataGenerator pada TensorFlow](https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator) sedangkan untuk random cutout merupakan teknik tambahan (sampai saat respatori ini dibuat belum ada pada tansorflow)
 
 pada kesempatan ini beberapa teknik augmentasi yang digunakan antara lain:
 - random rotate dengan besar 30 derajat, 
@@ -86,4 +86,25 @@ pada kesempatan ini beberapa teknik augmentasi yang digunakan antara lain:
 - [random cutout (melubangi gambar secara random)](https://github.com/yu4u/cutout-random-erasing).
 
 berikut contoh data yang telah melalui data augmentation :
-![Tampilan gambar yang melalui augmentation](Gambar/Rujukan/.jpg)
+![Tampilan gambar yang melalui augmentation](Gambar/Rujukan/dataAugmented.png)
+
+## Transfer Learning
+Akan lebih mudah mengajari seseorang yang memilii pengetahuan dasar untuk mengerjakan tugas spesific, hal ini juga berlaku pada model Deep Learning. Transfer Learning memungkinkan kita untuk mengunakan pengatahuan yang diperoleh dari pelatihan sebelumnya ke dalam model baru sehingga dari pada membiarkan model belajar dari null, setidaknya model memiliki pengetahuan dasar mengenai pola dan bentuk. 
+model pada percobaan ini akan mendapatkan transfer pengetahuan dari pelatihan sebelumnya yang dimana pelatihan tersebut dilakukan pada dataset [ImageNet](https://www.image-net.org/about.php) yang merupakan dataset besar dengan 1000 kelas.
+
+kita dapat mengunakan teknik ini pada [Tensorflow saat mendeklarasikan model](https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV3Large)
+```
+tf.keras.applications.MobileNetV3Large(
+    input_shape=None,
+    alpha=1.0,
+    # disini untuk menetukan apakah jenis learning yang dinginkan
+    #'none' untuk tidak menggunakan teknik
+    # atau masukan path weight file yang ingin digunakan
+    weights='imagenet',
+    classes=1000,
+    pooling=None,
+    classifier_activation='softmax',
+)
+```
+
+##
