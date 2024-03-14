@@ -54,7 +54,7 @@ beberapa proses pre-processing yang digunakan kali ini adalah :
 ### resize
 dimana semua gambar akan diubah ukuran menjadi 224x224 pixel, dimana teknik resize yang digunakan adalah [bilinear interpolation](https://en.wikipedia.org/wiki/Bilinear_interpolation)
 
-sebenarnya kita dapat memilih teknik resize yang kita mau, [resize pada tensorflow](https://www.tensorflow.org/api_docs/python/tf/image/resize) sendiri menyediakan beberapa teknik resize seperti :
+sebenarnya kita dapat memilih teknik resize yang kita mau, [resize tensorflow](https://www.tensorflow.org/api_docs/python/tf/image/resize) sendiri menyediakan beberapa teknik resize seperti :
 - AREA	'area'
 - BICUBIC	'bicubic'
 - BILINEAR	'bilinear'
