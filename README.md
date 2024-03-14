@@ -69,7 +69,7 @@ dan kita dapat ubah dengan
 tf.image.resize(
     images, 
     size, 
-    method=ResizeMethod.BILINEAR, // ganti metode yang di inginkan di sini
+    method=ResizeMethod.BILINEAR, # ganti metode yang di inginkan di sini
     preserve_aspect_ratio=False,
     antialias=False,
     name=None
@@ -94,7 +94,7 @@ model pada percobaan ini akan mendapatkan transfer pengetahuan dari pelatihan se
 
 kita dapat mengunakan teknik ini pada [Tensorflow saat mendeklarasikan model](https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV3Large)
 ```
-tf.keras.applications.MobileNetV3Large(
+model = tf.keras.applications.MobileNetV3Large(
     input_shape=None,
     alpha=1.0,
     # disini untuk menetukan apakah jenis learning yang dinginkan
@@ -107,4 +107,23 @@ tf.keras.applications.MobileNetV3Large(
 )
 ```
 
-##
+## Konfigurasi Arsitektur
+Model Deep Learning CNN sederhana terdiri dari tiga layer utama (tergantung model) yaitu **layer convolution**, **layer flatten** dan **classifier**. Layer convolution ini merupakan model CNN yang akan digunakan, dimana pada kesempatan ini saya akan mengguanakan [**MobileNetV3 Small**](https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV3Small) dan [**MobileNetV3 Large**](https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV3Large), [**layer flatten**](https://www.tensorflow.org/api_docs/python/tf/keras/layers/Flatten) merupakan layer yang akan mengubah output dari convolution yang merupakan data gambar dengan bentuk data nxn menjadi 1xn agar dapat digunakan pada layer classifier, sedangkan classifier merupakan layer yang akan mengkalsifikasi dan mengekstrak informasi dari setiap gambar yang masuk pada penelitian ini classifier yang digunakan adalah [**Multi-layer Perceptron**](https://en.wikipedia.org/wiki/Multilayer_perceptron).
+
+> perlu dicatat bahwa transfer learning hanya terjadi pada layer convolution, tidak pada flatten dan classifer
+> kita dapat menentukan apakah layer convolution yang menerima transfer learning untuk ikut belajar atau tidak dengan menggunakan trainble true atau false
+> ```
+>pretrained_model= tf.keras.applications.MobileNetV3Small(include_top=False,
+>                                                                   alpha=1.0,                                      
+>                                                                   input_shape=(224,224,3),
+>                                                                   pooling='avg',
+>                                                                   classes=15,
+>                                                                   weights='imagenet')
+>
+>for layer in pretrained_model.layers:
+>        layer.trainable=True
+> ```
+
+
+
+
