@@ -137,6 +137,9 @@ untuk memahami bagaimana bentuk dari model, silahkan buka langsung [paper peneli
 Classifier yang akan digunakan pada penelitian adalah multilayer perceptron dengan 3 layer utama, setiap layer terdiri dari [**drop out**](https://databasecamp.de/en/ml/dropout-layer-en#:~:text=The%20dropout%20layer%20is%20a,the%20network%20architecture%20at%20all.) dan [**fully connected layer (FCL)**](https://medium.com/@vaibhav1403/fully-connected-layer-f13275337c7c)
 
 structur MLP yang digunakan sebagai classifer terdiri dari
+
+![FCL multi Layer](Gambar/Rujukan/FCL_multilayer.jpg)
+
 | layer | unit | drop rate | fungsi aktivasi | Regularization |
 |-------|------|-----------|-----------------|----------------|
 |flatten|_s_ 1024 / _l_ 1280 |~|~|~|
@@ -166,3 +169,48 @@ model= Sequential()
 model.add(pretrained_model) #sesuaikan dengan arsitektur yang dipanggil sebelumnya
 model.add(classifier)
 ```
+
+### Cyclical Learning Rate (CLR)
+
+**Cyclical learning rate** merupakan sebuah teknik untuk mempengaruhi besar dari learning rate selama proses pelatihan, dengan tenik ini learning rate dapat bergerak secara leluasa. Berbeda dengan teknik pencarian learning rate pada umum nya seperti decay, learning rate dengan
+CLR akan naik maupun turun sesuai setingan yang di inginkan.
+
+pada kesempatan ini saya menggunakan CLR dengan jenis triangular, dimana learning rate akan naik turun secara bergantian setiap beberapa epoch. untuk memahami lebih lanjut silahkan baca di [**cyclical learning rate (CLR) oleh Brad Kenstler**](https://github.com/bckenstler/CLR)  
+
+![CLR Triangular ](gambar/Rujukan/CLR.jpg)
+
+beberapa pengaturan lain yang digunakan antara lain :
+- epoch = 150
+- batch size = 32
+- step size = 2345
+- learning rate awal = 0.001
+- learning rate max = 0.006
+- Optimizer = [Adam Optimizer](https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Adam)
+
+```
+BASE_LR = 1e-3
+MAX_LR = 6e-3
+BATCH_SIZE = 32
+CLR_METHOD = "triangular2"
+NUM_EPOCHS = 150
+step_size = 5 * (len(train_generator_TA))
+
+# Mengatur Check point, untuk menyimpan model
+checkpoint_list = [
+    keras.callbacks.ModelCheckpoint(
+        filepath='hasil_penelitian/MobileNetV3 Large 1.0 DA uf 0.4-728-0.3-256-0.2-15 USN.h5',
+        monitor='val_loss',
+        save_best_only=True,
+        verbose=1),
+
+    # Cyclical Learning Rate
+    CyclicLR(base_lr=BASE_LR,               
+                  max_lr=MAX_LR,
+                  step_size=step_size,
+                  mode='triangular2')       #ganti jenis CLR disini
+    ]
+
+optimizer = tf.keras.optimizers.Adam(BASE_LR)
+```
+## Hasil
+

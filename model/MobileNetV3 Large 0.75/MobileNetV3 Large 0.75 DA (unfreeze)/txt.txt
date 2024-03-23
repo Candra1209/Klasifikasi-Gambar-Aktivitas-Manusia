@@ -1,0 +1,2 @@
+Waktu Training = 492 menit
+Waktu predict = 10 detik
