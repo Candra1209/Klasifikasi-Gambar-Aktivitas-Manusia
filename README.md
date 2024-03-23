@@ -214,3 +214,61 @@ optimizer = tf.keras.optimizers.Adam(BASE_LR)
 ```
 ## Hasil
 
+ **Hasil dari proses pelatihan ini adalah :**
+
+![Accurasy dan Loss](gambar/Rujukan/acc_loss_hasil_pelatihan.jpg)
+
+![mean and max accuracy](gambar/Rujukan/mean-max-accuracy.jpg)
+
+**Untuk melihat keseluruhan hasil percobaan [buka di sini](https://docs.google.com/spreadsheets/d/1XOblvWzRJAKrLEmdrfYjRZYfVgYJBc0k/edit?usp=sharing&ouid=107010278973380260449&rtpof=true&sd=true)**
+
+### Percision
+
+![Percision](gambar/Rujukan/percision.jpg)
+
+### Recall
+
+![Recall](gambar/Rujukan/recall.jpg)
+
+### F1-Score
+
+![Recall](gambar/Rujukan/f1-score.jpg)
+
+**untuk melihat hasil confusion matrik [klik di sini](https://docs.google.com/spreadsheets/d/1Z4_wNd-yrsoWESUpr99suOrmVb0TG313/edit?usp=sharing&ouid=107010278973380260449&rtpof=true&sd=true)**
+
+**Untuk melihat hasil dan pembahasan [klik di sini](https://drive.google.com/file/d/1hoeBza5U4tmjHzY5us97dT9QJw7dObZE/view?usp=sharing)**
+
+## Kesimpulan
+Berdasarkan penelitian yang telah dilakukan, dilakukan pelatihan pada 
+arsitektur MobileNetV3 small dan large untuk melakukan klasifikasi gambar 
+dari 15 kelas aktivitas manusia, dimana tiap-tiap arsitektur small dan large akan 
+menggunakan alpha 0.75 dan 1.0 dan dilatih dengan dataset menggunakan 
+augmentation dan tanpa menggunakan augmentation. Berdasarkan penelitian 
+yang dilakukan akurasi tertinggi diperoleh arsitektur MobileNetV3 large dengan 
+alpha 1 yang dilatih tanpa menggunakan augmentation dengan akurasi tertinggi 
+0.6457 dan loss terendah 1,61, arsitektur ini memperoleh precision, recall dan
+F1-score sebesar 0,66 , 0,65 , dan 0,65. Meskipun arsitektur small tidak 
+menghasilkan akurasi yang lebih baik, namun dengan jumlah parameter 50% 
+lebih sedikit dan ukuran yang kecil dibanding arsitektur large, selisih akurasi 
+yang dihasilkan hanya berkisar 0.05~0.08. Jika diperhatikan pada masing-masing 
+kelas, ‘cycling’, ‘eating’, ‘running’ dan ‘fighting’ memperoleh nilai 
+precision, recall dan f1-score yang cukup baik pada beberapa skenario percobaan 
+dengan angka di atas 0.8. Arsitektur yang dilatih dengan dataset tanpa 
+menggunakan data augmentation memperoleh akurasi yang lebih tinggi dari 
+pada arsitektur yang dilatih menggunakan data augmentation.
+
+## Rujukan
+
+[searching for MobileNetV3 by Andrew Howard, dkk](https://doi.org/10.48550/arXiv.1905.02244)
+
+[MobileNetV3 for Image Classification by Siying Qian dkk](https://ieeexplore.ieee.org/document/9389905)
+
+[Intelligent garbage classification system based on improve MobileNetV3-Large by Yi Zao](https://doi.org/10.1080/09540091.2022.2067127)
+
+[A survey on Image Data Augmentation for Deep Learning by Connor Shorten](https://journalofbigdata.springeropen.com/articles/10.1186/s40537-019-0197-0)
+
+[Human Activity Analysis: A Review by J. K. AGGARWAL](https://dl.acm.org/doi/10.1145/1922649.1922653)
+
+[A Comparative Study of Transfer Learning and Fine-Tuning Method on Deep Learning Models for Wayang Dataset Classification by Ahmad Mustafid](https://ejournal.uin-suka.ac.id/saintek/ijid/article/view/09207)
+
+[Analyzing the Effectiveness of Image Augmentations for Face Recognition from Limited Data by Aleksei Zhuchkov](https://arxiv.org/abs/2105.08796)
